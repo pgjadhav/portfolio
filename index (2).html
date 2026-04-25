@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prashant Jadhav — Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --surface2: #111820;
+    --border: rgba(99,210,255,0.1);
+    --accent: #63d2ff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --text: #e8f0f7;
+    --muted: #6b8099;
+    --card: rgba(13,17,23,0.8);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:9999;
+    opacity:0.35;
+  }
+
+  /* GRID BG */
+  .grid-bg {
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(99,210,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,210,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* GLOW ORBS */
+  .orb {
+    position:fixed;
+    border-radius:50%;
+    filter:blur(120px);
+    pointer-events:none;
+    z-index:0;
+  }
+  .orb-1 { width:600px; height:600px; background:rgba(99,210,255,0.06); top:-200px; right:-200px; }
+  .orb-2 { width:500px; height:500px; background:rgba(167,139,250,0.05); bottom:10%; left:-150px; }
+  .orb-3 { width:300px; height:300px; background:rgba(52,211,153,0.04); top:50%; left:50%; }
+
+  /* NAV */
+  nav {
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.25rem 4rem;
+    background:rgba(8,12,16,0.7);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family:'DM Serif Display', serif;
+    font-size:1.4rem;
+    color:var(--accent);
+    letter-spacing:-0.02em;
+  }
+
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a {
+    font-family:'DM Mono', monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+    text-decoration:none;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    transition:color 0.25s;
+  }
+  .nav-links a:hover { color:var(--accent); }
+
+  .nav-cta {
+    font-family:'DM Mono', monospace;
+    font-size:0.78rem;
+    padding:0.5rem 1.25rem;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    text-decoration:none;
+    letter-spacing:0.08em;
+    transition:all 0.25s;
+  }
+  .nav-cta:hover { background:var(--accent); color:#000; }
+
+  /* SECTIONS */
+  section { position:relative; z-index:1; }
+
+  /* HERO */
+  #hero {
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding: 8rem 4rem 4rem;
+    gap:4rem;
+  }
+
+  .hero-left { flex:1; }
+
+  .hero-tag {
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.15em;
+    color:var(--accent3);
+    text-transform:uppercase;
+    margin-bottom:1.5rem;
+    padding:0.35rem 0.75rem;
+    border:1px solid rgba(52,211,153,0.3);
+    border-radius:2px;
+  }
+  .hero-tag::before { content:'●'; font-size:0.5rem; animation:pulse 2s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-name {
+    font-family:'DM Serif Display', serif;
+    font-size:clamp(3.5rem,7vw,6.5rem);
+    line-height:0.95;
+    letter-spacing:-0.03em;
+    margin-bottom:0.5rem;
+    color:#fff;
+  }
+  .hero-name em {
+    font-style:italic;
+    color:var(--accent);
+    display:block;
+  }
+
+  .hero-title {
+    font-family:'DM Mono', monospace;
+    font-size:0.9rem;
+    color:var(--muted);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:2rem;
+    margin-top:1rem;
+  }
+
+  .hero-desc {
+    font-size:1.05rem;
+    color:rgba(232,240,247,0.7);
+    line-height:1.8;
+    max-width:540px;
+    margin-bottom:2.5rem;
+  }
+
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+
+  .btn-primary {
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.85rem 2rem;
+    background:var(--accent);
+    color:#000;
+    font-family:'DM Mono',monospace;
+    font-size:0.82rem;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-decoration:none;
+    transition:all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover { background:#fff; transform:translateY(-2px); }
+
+  .btn-outline {
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.85rem 2rem;
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'DM Mono',monospace;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-decoration:none;
+    transition:all 0.25s;
+  }
+  .btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+
+  .hero-right {
+    flex:0 0 380px;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+  }
+
+  .stat-card {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.5rem;
+    display:flex;
+    align-items:center;
+    gap:1.25rem;
+    transition:border-color 0.25s, transform 0.25s;
+  }
+  .stat-card:hover { border-color:var(--accent); transform:translateX(-4px); }
+
+  .stat-icon {
+    width:44px; height:44px;
+    background:rgba(99,210,255,0.08);
+    border:1px solid rgba(99,210,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+    flex-shrink:0;
+  }
+
+  .stat-num {
+    font-family:'DM Serif Display', serif;
+    font-size:2rem;
+    color:var(--accent);
+    line-height:1;
+  }
+  .stat-label {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-top:0.2rem;
+  }
+
+  .hero-stack {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.25rem 1.5rem;
+  }
+  .hero-stack-title {
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    letter-spacing:0.15em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin-bottom:0.75rem;
+  }
+  .stack-pills { display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .pill {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    padding:0.25rem 0.6rem;
+    border:1px solid var(--border);
+    color:var(--muted);
+    letter-spacing:0.05em;
+    transition:all 0.2s;
+  }
+  .pill:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* SECTION COMMON */
+  .section-inner { max-width:1100px; margin:0 auto; padding:6rem 4rem; }
+
+  .section-label {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:0.75rem;
+  }
+
+  .section-title {
+    font-family:'DM Serif Display', serif;
+    font-size:clamp(2rem,4vw,3rem);
+    line-height:1.1;
+    color:#fff;
+    margin-bottom:1rem;
+  }
+
+  .section-sub {
+    color:var(--muted);
+    font-size:0.95rem;
+    line-height:1.7;
+    max-width:520px;
+  }
+
+  .divider { height:1px; background:var(--border); margin:0 4rem; }
+
+  /* ABOUT */
+  #about { background:var(--surface); }
+  .about-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4rem;
+    align-items:start;
+    margin-top:3rem;
+  }
+
+  .about-text p {
+    color:rgba(232,240,247,0.75);
+    line-height:1.85;
+    font-size:0.97rem;
+    margin-bottom:1.25rem;
+  }
+
+  .about-info { display:flex; flex-direction:column; gap:0.75rem; margin-top:2rem; }
+  .about-info-row {
+    display:flex;
+    gap:1rem;
+    align-items:center;
+    font-family:'DM Mono', monospace;
+    font-size:0.8rem;
+    padding:0.6rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  .info-key { color:var(--muted); min-width:100px; letter-spacing:0.05em; }
+  .info-val { color:var(--text); }
+
+  .about-right { display:flex; flex-direction:column; gap:1.5rem; }
+
+  .expertise-block { background:var(--surface2); border:1px solid var(--border); padding:1.5rem; }
+  .exp-title {
+    font-family:'DM Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    color:var(--accent2);
+    text-transform:uppercase;
+    margin-bottom:1rem;
+  }
+  .exp-items { display:flex; flex-direction:column; gap:0.6rem; }
+  .exp-item {
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    font-size:0.88rem;
+    color:rgba(232,240,247,0.8);
+  }
+  .exp-item::before { content:'▸'; color:var(--accent); font-size:0.7rem; }
+
+  /* EXPERIENCE */
+  #experience { background:var(--bg); }
+  .exp-timeline { margin-top:3rem; display:flex; flex-direction:column; gap:0; }
+
+  .timeline-item {
+    display:grid;
+    grid-template-columns:180px 1px 1fr;
+    gap:0 2rem;
+    position:relative;
+  }
+
+  .timeline-date {
+    font-family:'DM Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+    text-align:right;
+    padding-top:0.25rem;
+    padding-bottom:3rem;
+  }
+
+  .timeline-line {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0;
+  }
+  .timeline-dot {
+    width:10px; height:10px;
+    background:var(--accent);
+    border-radius:50%;
+    flex-shrink:0;
+    margin-top:0.3rem;
+    box-shadow:0 0 12px var(--accent);
+  }
+  .timeline-bar {
+    width:1px;
+    flex:1;
+    background:var(--border);
+    margin-top:4px;
+  }
+  .timeline-item:last-child .timeline-bar { display:none; }
+
+  .timeline-content { padding-bottom:3rem; }
+  .timeline-role {
+    font-family:'DM Serif Display', serif;
+    font-size:1.3rem;
+    color:#fff;
+    margin-bottom:0.2rem;
+  }
+  .timeline-company {
+    font-family:'DM Mono', monospace;
+    font-size:0.75rem;
+    color:var(--accent);
+    letter-spacing:0.1em;
+    margin-bottom:1rem;
+  }
+  .timeline-bullets { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+  .timeline-bullets li {
+    display:flex;
+    gap:0.75rem;
+    font-size:0.88rem;
+    color:rgba(232,240,247,0.7);
+    line-height:1.6;
+  }
+  .timeline-bullets li::before { content:'–'; color:var(--accent); flex-shrink:0; margin-top:0.05rem; }
+
+  /* PROJECTS */
+  #projects { background:var(--surface); }
+  .projects-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+    gap:1.5rem;
+    margin-top:3rem;
+  }
+
+  .project-card {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.75rem;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    transition:all 0.3s;
+    position:relative;
+    overflow:hidden;
+  }
+  .project-card::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:2px;
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.35s;
+  }
+  .project-card:hover::before { transform:scaleX(1); }
+  .project-card:hover { border-color:rgba(99,210,255,0.25); transform:translateY(-4px); }
+
+  .project-header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+  .project-icon { font-size:1.75rem; }
+  .project-tag {
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    letter-spacing:0.1em;
+    padding:0.25rem 0.6rem;
+    border:1px solid rgba(167,139,250,0.3);
+    color:var(--accent2);
+    text-transform:uppercase;
+  }
+
+  .project-title {
+    font-family:'DM Serif Display', serif;
+    font-size:1.15rem;
+    color:#fff;
+    line-height:1.3;
+  }
+
+  .project-desc {
+    font-size:0.85rem;
+    color:rgba(232,240,247,0.6);
+    line-height:1.7;
+    flex:1;
+  }
+
+  .project-skills { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:auto; }
+  .skill-chip {
+    font-family:'DM Mono', monospace;
+    font-size:0.63rem;
+    padding:0.2rem 0.5rem;
+    background:rgba(99,210,255,0.06);
+    border:1px solid rgba(99,210,255,0.12);
+    color:var(--accent);
+    letter-spacing:0.05em;
+  }
+
+  /* SKILLS */
+  #skills { background:var(--bg); }
+  .skills-layout {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+    margin-top:3rem;
+  }
+
+  .skill-category {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.75rem;
+    transition:border-color 0.25s;
+  }
+  .skill-category:hover { border-color:rgba(99,210,255,0.2); }
+
+  .cat-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem; }
+  .cat-icon { font-size:1.25rem; }
+  .cat-name {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .skill-bars { display:flex; flex-direction:column; gap:0.75rem; }
+  .skill-bar-row { display:flex; flex-direction:column; gap:0.3rem; }
+  .skill-bar-top { display:flex; justify-content:space-between; align-items:center; }
+  .skill-bar-name { font-size:0.82rem; color:var(--text); }
+  .skill-bar-pct { font-family:'DM Mono', monospace; font-size:0.68rem; color:var(--muted); }
+  .skill-track {
+    height:3px;
+    background:rgba(99,210,255,0.08);
+    border-radius:0;
+    overflow:hidden;
+  }
+  .skill-fill {
+    height:100%;
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
+    transform-origin:left;
+    animation:fillBar 1.5s ease forwards;
+    transform:scaleX(0);
+  }
+  @keyframes fillBar { to { transform:scaleX(1); } }
+
+  .tools-grid {
+    grid-column:1/-1;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.75rem;
+  }
+  .tools-title {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--accent2);
+    margin-bottom:1.25rem;
+  }
+  .tools-list { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .tool-tag {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    padding:0.3rem 0.75rem;
+    border:1px solid var(--border);
+    color:var(--muted);
+    letter-spacing:0.05em;
+    transition:all 0.2s;
+  }
+  .tool-tag:hover { border-color:var(--accent2); color:var(--accent2); }
+
+  /* EDUCATION */
+  #education { background:var(--surface); }
+  .edu-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;
+    margin-top:3rem;
+  }
+
+  .edu-card {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.75rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.75rem;
+    transition:all 0.25s;
+    position:relative;
+  }
+  .edu-card::after {
+    content:'';
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:2px;
+    background:var(--accent3);
+    transform:scaleX(0);
+    transition:transform 0.3s;
+    transform-origin:left;
+  }
+  .edu-card:hover::after { transform:scaleX(1); }
+  .edu-card:hover { transform:translateY(-4px); }
+
+  .edu-degree {
+    font-family:'DM Serif Display', serif;
+    font-size:1.05rem;
+    color:#fff;
+    line-height:1.3;
+  }
+  .edu-school {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    color:var(--accent);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .edu-year {
+    font-family:'DM Mono', monospace;
+    font-size:0.7rem;
+    color:var(--muted);
+  }
+  .edu-grade {
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    color:var(--accent3);
+    padding:0.25rem 0.6rem;
+    border:1px solid rgba(52,211,153,0.25);
+    margin-top:auto;
+  }
+
+  /* CONTACT */
+  #contact { background:var(--bg); }
+  .contact-wrapper {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4rem;
+    margin-top:3rem;
+    align-items:start;
+  }
+
+  .contact-info { display:flex; flex-direction:column; gap:1.25rem; }
+  .contact-item {
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    padding:1.25rem 1.5rem;
+    background:var(--surface2);
+    border:1px solid var(--border);
+    transition:all 0.25s;
+    text-decoration:none;
+  }
+  .contact-item:hover { border-color:var(--accent); transform:translateX(4px); }
+  .contact-item-icon {
+    width:40px; height:40px;
+    background:rgba(99,210,255,0.07);
+    border:1px solid rgba(99,210,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem;
+    flex-shrink:0;
+  }
+  .contact-item-label {
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    color:var(--muted);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin-bottom:0.15rem;
+  }
+  .contact-item-val { font-size:0.9rem; color:var(--text); }
+
+  .contact-cta-box {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:2.5rem;
+    display:flex;
+    flex-direction:column;
+    gap:1.25rem;
+  }
+  .cta-title {
+    font-family:'DM Serif Display', serif;
+    font-size:1.8rem;
+    color:#fff;
+    line-height:1.2;
+  }
+  .cta-sub { font-size:0.88rem; color:var(--muted); line-height:1.7; }
+
+  /* FOOTER */
+  footer {
+    border-top:1px solid var(--border);
+    padding:1.75rem 4rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
+    z-index:1;
+  }
+  .footer-name {
+    font-family:'DM Serif Display', serif;
+    color:var(--accent);
+    font-size:1rem;
+  }
+  .footer-copy {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+  }
+
+  /* SCROLL FADE */
+  .fade-up {
+    opacity:0;
+    transform:translateY(30px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ── PROJECT MODAL ── */
+  .modal-overlay {
+    position:fixed;
+    inset:0;
+    background:rgba(4,7,10,0.92);
+    backdrop-filter:blur(12px);
+    z-index:1000;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:2rem 1rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.35s ease;
+    overflow-y:auto;
+  }
+  .modal-overlay.open {
+    opacity:1;
+    pointer-events:all;
+  }
+
+  .modal {
+    background:var(--surface);
+    border:1px solid rgba(99,210,255,0.18);
+    max-width:860px;
+    width:100%;
+    position:relative;
+    transform:translateY(40px) scale(0.97);
+    transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    margin:auto;
+  }
+  .modal-overlay.open .modal {
+    transform:translateY(0) scale(1);
+  }
+
+  .modal-header {
+    padding:2rem 2.5rem 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:1rem;
+    background:linear-gradient(135deg, rgba(99,210,255,0.04), transparent);
+  }
+
+  .modal-header-left { flex:1; }
+
+  .modal-tag {
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    letter-spacing:0.15em;
+    color:var(--accent2);
+    text-transform:uppercase;
+    padding:0.25rem 0.65rem;
+    border:1px solid rgba(167,139,250,0.3);
+    margin-bottom:0.85rem;
+  }
+
+  .modal-title {
+    font-family:'DM Serif Display', serif;
+    font-size:clamp(1.4rem,3vw,2rem);
+    color:#fff;
+    line-height:1.2;
+    margin-bottom:0.5rem;
+  }
+
+  .modal-subtitle {
+    font-family:'DM Mono', monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+  }
+
+  .modal-close {
+    background:rgba(99,210,255,0.06);
+    border:1px solid var(--border);
+    color:var(--muted);
+    width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-size:1.1rem;
+    flex-shrink:0;
+    transition:all 0.2s;
+  }
+  .modal-close:hover { border-color:var(--accent); color:var(--accent); background:rgba(99,210,255,0.1); }
+
+  .modal-body { padding:2rem 2.5rem; display:flex; flex-direction:column; gap:2rem; }
+
+  /* Flow Steps */
+  .modal-flow {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:0;
+    border:1px solid var(--border);
+    overflow:hidden;
+  }
+  .flow-step {
+    padding:1rem 1.25rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.4rem;
+    text-align:center;
+    border-right:1px solid var(--border);
+    position:relative;
+    background:var(--surface2);
+    transition:background 0.2s;
+  }
+  .flow-step:last-child { border-right:none; }
+  .flow-step-num {
+    font-family:'DM Mono', monospace;
+    font-size:0.6rem;
+    color:var(--accent);
+    letter-spacing:0.1em;
+  }
+  .flow-step-icon { font-size:1.3rem; }
+  .flow-step-name {
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    color:var(--muted);
+    letter-spacing:0.05em;
+    text-align:center;
+    line-height:1.3;
+  }
+
+  /* Section blocks */
+  .modal-section { display:flex; flex-direction:column; gap:0.9rem; }
+  .modal-section-label {
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--accent);
+    padding-bottom:0.6rem;
+    border-bottom:1px solid var(--border);
+  }
+  .modal-section-label span { color:var(--muted); }
+
+  .modal-section-body {
+    font-size:0.9rem;
+    color:rgba(232,240,247,0.75);
+    line-height:1.8;
+  }
+
+  /* Problem bullets */
+  .problem-list { display:flex; flex-direction:column; gap:0.55rem; }
+  .problem-item {
+    display:flex;
+    gap:0.85rem;
+    align-items:flex-start;
+    font-size:0.875rem;
+    color:rgba(232,240,247,0.72);
+    line-height:1.65;
+    padding:0.6rem 0.85rem;
+    background:rgba(255,80,80,0.04);
+    border-left:2px solid rgba(255,100,100,0.3);
+  }
+  .problem-item-icon { font-size:0.85rem; flex-shrink:0; margin-top:0.1rem; }
+
+  /* Task cards */
+  .task-list { display:flex; flex-direction:column; gap:1rem; }
+  .task-card {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.25rem 1.5rem;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.75rem 1.25rem;
+    align-items:start;
+    transition:border-color 0.2s;
+  }
+  .task-card:hover { border-color:rgba(99,210,255,0.25); }
+  .task-num {
+    font-family:'DM Mono', monospace;
+    font-size:0.65rem;
+    color:var(--accent);
+    background:rgba(99,210,255,0.08);
+    border:1px solid rgba(99,210,255,0.15);
+    padding:0.25rem 0.5rem;
+    letter-spacing:0.1em;
+    white-space:nowrap;
+    margin-top:0.1rem;
+  }
+  .task-content {}
+  .task-title {
+    font-family:'Syne', sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    color:#fff;
+    margin-bottom:0.35rem;
+  }
+  .task-desc {
+    font-size:0.835rem;
+    color:rgba(232,240,247,0.65);
+    line-height:1.7;
+  }
+  .task-sub-list { margin-top:0.5rem; display:flex; flex-direction:column; gap:0.3rem; }
+  .task-sub-item {
+    display:flex;
+    gap:0.6rem;
+    font-size:0.81rem;
+    color:rgba(232,240,247,0.58);
+    line-height:1.6;
+  }
+  .task-sub-item::before { content:'↳'; color:var(--accent2); flex-shrink:0; }
+
+  /* Validation layers */
+  .validation-layers { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .val-layer {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.25rem;
+    border-top:2px solid var(--accent);
+  }
+  .val-layer:last-child { border-top-color:var(--accent2); }
+  .val-layer-title {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:0.6rem;
+  }
+  .val-layer:last-child .val-layer-title { color:var(--accent2); }
+  .val-layer-desc {
+    font-size:0.84rem;
+    color:rgba(232,240,247,0.65);
+    line-height:1.65;
+  }
+
+  /* Label badges */
+  .label-grid { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .label-badge {
+    font-family:'DM Mono', monospace;
+    font-size:0.7rem;
+    padding:0.3rem 0.75rem;
+    letter-spacing:0.06em;
+    border:1px solid;
+  }
+  .label-badge.match    { color:#34d399; border-color:rgba(52,211,153,0.35); background:rgba(52,211,153,0.06); }
+  .label-badge.nomatch  { color:#f87171; border-color:rgba(248,113,113,0.35); background:rgba(248,113,113,0.06); }
+  .label-badge.mismatch { color:#fbbf24; border-color:rgba(251,191,36,0.35); background:rgba(251,191,36,0.06); }
+  .label-badge.notfound { color:#a78bfa; border-color:rgba(167,139,250,0.35); background:rgba(167,139,250,0.06); }
+
+  /* Outcome cards */
+  .outcomes-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; }
+  .outcome-card {
+    background:var(--surface2);
+    border:1px solid var(--border);
+    padding:1.25rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.4rem;
+    border-bottom:2px solid var(--accent3);
+  }
+  .outcome-icon { font-size:1.4rem; }
+  .outcome-val {
+    font-family:'DM Serif Display', serif;
+    font-size:1.5rem;
+    color:var(--accent3);
+    line-height:1;
+  }
+  .outcome-label {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    line-height:1.4;
+  }
+
+  /* Tech stack */
+  .tech-stack-grid { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .tech-badge {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    padding:0.35rem 0.85rem;
+    border:1px solid rgba(99,210,255,0.2);
+    color:var(--accent);
+    background:rgba(99,210,255,0.05);
+    letter-spacing:0.06em;
+    transition:all 0.2s;
+  }
+  .tech-badge:hover { background:rgba(99,210,255,0.12); border-color:rgba(99,210,255,0.4); }
+
+  /* Clickable card cue */
+  .project-card { cursor:pointer; }
+  .project-card-footer {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:0.5rem;
+    padding-top:0.75rem;
+    border-top:1px solid var(--border);
+  }
+  .view-details-btn {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:var(--accent);
+    letter-spacing:0.08em;
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    transition:gap 0.2s;
+  }
+  .project-card:hover .view-details-btn { gap:0.7rem; }
+  .coming-soon-btn {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.08em;
+    font-style:italic;
+  }
+
+  .modal-footer {
+    padding:1.25rem 2.5rem;
+    border-top:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--surface2);
+  }
+  .modal-footer-note {
+    font-family:'DM Mono', monospace;
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.06em;
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:900px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    #hero { flex-direction:column; padding:7rem 1.5rem 3rem; gap:2rem; }
+    .hero-right { flex:none; width:100%; }
+    .section-inner { padding:4rem 1.5rem; }
+    .about-grid, .skills-layout, .contact-wrapper { grid-template-columns:1fr; gap:2rem; }
+    .edu-grid { grid-template-columns:1fr; }
+    .projects-grid { grid-template-columns:1fr; }
+    .timeline-item { grid-template-columns:1fr; }
+    .timeline-date { text-align:left; }
+    .timeline-line { display:none; }
+    footer { flex-direction:column; gap:0.5rem; text-align:center; padding:1.5rem; }
+    .divider { margin:0 1.5rem; }
+    .modal-body { padding:1.25rem; }
+    .modal-header { padding:1.25rem; }
+    .modal-footer { padding:1rem 1.25rem; flex-direction:column; gap:0.5rem; align-items:flex-start; }
+    .validation-layers { grid-template-columns:1fr; }
+    .modal-flow { grid-template-columns:repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PJ</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="/cdn-cgi/l/email-protection#86f6e1ece7e2eee7f0b6b6b6b7c6e1ebe7efeaa8e5e9eb" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left fade-up">
+    <div class="hero-tag">Available for opportunities</div>
+    <h1 class="hero-name">
+      Prashant
+      <em>Jadhav</em>
+    </h1>
+    <div class="hero-title">// Data Scientist &amp; AI Engineer</div>
+    <p class="hero-desc">
+      Building intelligent systems at the intersection of Machine Learning, LLMs, and Time Series Analysis.
+      4+ years turning complex data into decisions that matter.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right fade-up" style="transition-delay:0.2s">
+    <div class="stat-card">
+      <div class="stat-icon">🧠</div>
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🚀</div>
+      <div>
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🤖</div>
+      <div>
+        <div class="stat-num">LLM</div>
+        <div class="stat-label">Fine-tuning &amp; RAG Pipelines</div>
+      </div>
+    </div>
+    <div class="hero-stack">
+      <div class="hero-stack-title">// Core Stack</div>
+      <div class="stack-pills">
+        <span class="pill">Python</span>
+        <span class="pill">ML/DL</span>
+        <span class="pill">LLMs</span>
+        <span class="pill">RAG</span>
+        <span class="pill">Time Series</span>
+        <span class="pill">AWS</span>
+        <span class="pill">NLP</span>
+        <span class="pill">Gen AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">// 01 — About</div>
+    <h2 class="section-title">The Data Mind<br><em style="font-style:italic;color:var(--accent)">Behind the Models</em></h2>
+    <div class="about-grid fade-up">
+      <div class="about-text">
+        <p>
+          I'm a Data Scientist with 4+ years of hands-on experience crafting end-to-end AI/ML solutions across forecasting, natural language processing, and generative AI. Currently based in Ahmedabad, I work at Let's Enkindle where I build predictive models and intelligent automation systems for real-world business impact.
+        </p>
+        <p>
+          My expertise spans the full ML lifecycle — from raw data wrangling and feature engineering to deploying production-grade models via REST APIs on AWS. I thrive in cross-functional environments where data-driven decisions move the needle.
+        </p>
+        <p>
+          Recently, I've been deep-diving into the LLM ecosystem — fine-tuning models like SQLCoder, building RAG pipelines with vector databases, and developing AI agents powered by the Gemini API.
+        </p>
+        <div class="about-info">
+          <div class="about-info-row">
+            <span class="info-key">📍 Location</span>
+            <span class="info-val">Ahmedabad (Mumbai based), India</span>
+          </div>
+          <div class="about-info-row">
+            <span class="info-key">📧 Email</span>
+            <span class="info-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8cfcebe6ede8e4edfabcbcbcbdccebe1ede5e0a2efe3e1">[email&#160;protected]</a></span>
+          </div>
+          <div class="about-info-row">
+            <span class="info-key">📞 Phone</span>
+            <span class="info-val">+91 7666308973</span>
+          </div>
+          <div class="about-info-row">
+            <span class="info-key">🎓 Degree</span>
+            <span class="info-val">B.E. — Pune University</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-right">
+        <div class="expertise-block fade-up">
+          <div class="exp-title">// Domains of Expertise</div>
+          <div class="exp-items">
+            <div class="exp-item">Machine Learning &amp; Predictive Modeling</div>
+            <div class="exp-item">Time Series Forecasting (ARIMA, Prophet, LSTM)</div>
+            <div class="exp-item">Large Language Models &amp; Fine-tuning</div>
+            <div class="exp-item">Retrieval-Augmented Generation (RAG)</div>
+            <div class="exp-item">Natural Language Processing (NLP)</div>
+            <div class="exp-item">Data Pipeline &amp; Automation Engineering</div>
+            <div class="exp-item">Deep Learning (ANN, CNN, TensorFlow, PyTorch)</div>
+            <div class="exp-item">AWS Cloud Deployment &amp; API Integration</div>
+            <div class="exp-item">Data Visualization &amp; Business Intelligence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">// 02 — Experience</div>
+    <h2 class="section-title">Professional<br><em style="font-style:italic;color:var(--accent)">Journey</em></h2>
+    <p class="section-sub">4+ years building data-driven products across two forward-thinking organizations.</p>
+
+    <div class="exp-timeline fade-up">
+      <div class="timeline-item">
+        <div class="timeline-date">2024 – Present</div>
+        <div class="timeline-line">
+          <div class="timeline-dot"></div>
+          <div class="timeline-bar"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-role">Data Scientist</div>
+          <div class="timeline-company">LET'S ENKINDLE · Ahmedabad, India</div>
+          <ul class="timeline-bullets">
+            <li>Performed Time Series Analysis on large, complex datasets to uncover patterns and trends informing business decisions.</li>
+            <li>Developed predictive models using Prophet, ARIMA, SARIMA, Exponential MA, and LSTM neural networks for product price forecasting.</li>
+            <li>Built AI-powered document processing pipelines integrating Gemini API for unstructured data extraction and normalization.</li>
+            <li>Applied advanced data visualization and summarization to communicate key findings to stakeholders.</li>
+            <li>Conducted research to stay current with advancements in AI and data science; periodically retrained models with new data.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2021 – 2024</div>
+        <div class="timeline-line">
+          <div class="timeline-dot" style="background:var(--accent2);box-shadow:0 0 12px var(--accent2)"></div>
+          <div class="timeline-bar"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-role">Data Scientist</div>
+          <div class="timeline-company">LETS NURTURE · Ahmedabad, India</div>
+          <ul class="timeline-bullets">
+            <li>Analyzed large datasets to identify trends and patterns supporting data-driven business strategies.</li>
+            <li>Developed classification and regression models using logistic regression, decision trees, and neural networks.</li>
+            <li>Applied data visualization techniques (Matplotlib, Seaborn, Power BI) to communicate insights across teams.</li>
+            <li>Collaborated with cross-functional teams to translate analytical findings into actionable strategies.</li>
+            <li>Conducted research to stay current with evolving data science practices and ML methodologies.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">// 03 — Projects</div>
+    <h2 class="section-title">Featured<br><em style="font-style:italic;color:var(--accent)">Work</em></h2>
+    <p class="section-sub">A selection of projects spanning Gen AI, NLP, Time Series, and ML classification.</p>
+
+    <div class="projects-grid fade-up">
+
+      <div class="project-card" onclick="openModal('ss-tool')">
+        <div class="project-header">
+          <div class="project-icon">📋</div>
+          <div class="project-tag">Gen AI · Automation</div>
+        </div>
+        <div class="project-title">S&S Statement AI Verification Tool</div>
+        <div class="project-desc">
+          End-to-end AI system automating stock statement verification for a pharma company with 100+ super stockists and ~13,000 monthly reports. Extracted and normalized data from PDF, scanned images, CSV, and Excel using Gemini API, reducing manual effort and compliance errors significantly.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">Generative AI</span>
+          <span class="skill-chip">LLMs</span>
+          <span class="skill-chip">Gemini API</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">PDF/Image Processing</span>
+          <span class="skill-chip">Data Normalization</span>
+          <span class="skill-chip">Automation</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="view-details-btn">View Case Study →</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🗄️</div>
+          <div class="project-tag">LLM · RAG</div>
+        </div>
+        <div class="project-title">NLP-to-SQL Query Generation (Fine-Tuned LLM + RAG)</div>
+        <div class="project-desc">
+          Built a system converting natural-language prompts into accurate SQL queries using a fine-tuned Defog SQLCoder model. Implemented schema-aware retrieval, vector search, and prompt optimization to reduce hallucinations and enable direct database integration.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">LLM Fine-tuning</span>
+          <span class="skill-chip">RAG</span>
+          <span class="skill-chip">HuggingFace</span>
+          <span class="skill-chip">SQLCoder</span>
+          <span class="skill-chip">Vector DB</span>
+          <span class="skill-chip">Qdrant</span>
+          <span class="skill-chip">Chroma</span>
+          <span class="skill-chip">SQL</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="coming-soon-btn">// Details coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">💬</div>
+          <div class="project-tag">Chatbot · NLP</div>
+        </div>
+        <div class="project-title">AI-Powered Conversational Chatbot</div>
+        <div class="project-desc">
+          Developed an intelligent chatbot with contextual understanding and multi-turn conversation support. Built a full RAG pipeline for dynamic knowledge retrieval including intent handling, vector search, and prompt engineering for accurate and up-to-date responses.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">LLMs</span>
+          <span class="skill-chip">RAG</span>
+          <span class="skill-chip">HuggingFace</span>
+          <span class="skill-chip">Vector DB</span>
+          <span class="skill-chip">Prompt Engineering</span>
+          <span class="skill-chip">API Integration</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="coming-soon-btn">// Details coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">📈</div>
+          <div class="project-tag">Time Series · Forecasting</div>
+        </div>
+        <div class="project-title">Allyl Chloride Price Forecast</div>
+        <div class="project-desc">
+          Forecasted future prices of Allyl Chloride to support pharmaceutical business growth using advanced time series models including ARIMA, SARIMA, Prophet, and LSTM, with comprehensive data preprocessing and visualization pipelines.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Pandas</span>
+          <span class="skill-chip">Time Series</span>
+          <span class="skill-chip">ARIMA</span>
+          <span class="skill-chip">Prophet</span>
+          <span class="skill-chip">LSTM</span>
+          <span class="skill-chip">Data Visualization</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="coming-soon-btn">// Details coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">⚡</div>
+          <div class="project-tag">Time Series · Energy</div>
+        </div>
+        <div class="project-title">Coal &amp; Sulphur Price Forecast</div>
+        <div class="project-desc">
+          Built forecasting models for both Coal and Sulphur commodity prices, helping manufacturing industries make informed procurement decisions. Applied data cleaning, trend analysis, and multiple forecasting algorithms for reliable price predictions.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Pandas</span>
+          <span class="skill-chip">SARIMA</span>
+          <span class="skill-chip">Exp. Smoothing</span>
+          <span class="skill-chip">Data Preprocessing</span>
+          <span class="skill-chip">Visualization</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="coming-soon-btn">// Details coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🔧</div>
+          <div class="project-tag">ML · Classification</div>
+        </div>
+        <div class="project-title">Predict Type of Failure in Machine</div>
+        <div class="project-desc">
+          Multi-class classification system predicting machine failure types from multi-feature sensor datasets. Applied various ML classifiers with feature engineering and model evaluation to support predictive maintenance workflows.
+        </div>
+        <div class="project-skills">
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Scikit-learn</span>
+          <span class="skill-chip">Classification</span>
+          <span class="skill-chip">Feature Engineering</span>
+          <span class="skill-chip">Data Visualization</span>
+        </div>
+        <div class="project-card-footer">
+          <span class="coming-soon-btn">// Details coming soon</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">// 04 — Skills</div>
+    <h2 class="section-title">Technical<br><em style="font-style:italic;color:var(--accent)">Arsenal</em></h2>
+
+    <div class="skills-layout fade-up">
+
+      <div class="skill-category">
+        <div class="cat-header">
+          <span class="cat-icon">🤖</span>
+          <span class="cat-name">Machine Learning</span>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Scikit-learn / Classical ML</span><span class="skill-bar-pct">92%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:92%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Deep Learning (TF / PyTorch)</span><span class="skill-bar-pct">85%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Time Series Analysis</span><span class="skill-bar-pct">90%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">NLP &amp; Text Mining</span><span class="skill-bar-pct">82%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:82%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="cat-header">
+          <span class="cat-icon">🧬</span>
+          <span class="cat-name">LLM &amp; Gen AI</span>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">LLM Fine-tuning (HuggingFace)</span><span class="skill-bar-pct">85%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">RAG Pipelines</span><span class="skill-bar-pct">88%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Vector Databases (Qdrant/Chroma)</span><span class="skill-bar-pct">82%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:82%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Prompt Engineering</span><span class="skill-bar-pct">87%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:87%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="cat-header">
+          <span class="cat-icon">💻</span>
+          <span class="cat-name">Programming &amp; Data</span>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Python (NumPy, Pandas, SciPy)</span><span class="skill-bar-pct">93%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:93%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">SQL (MySQL, MongoDB)</span><span class="skill-bar-pct">85%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Data Visualization (Matplotlib, PBI)</span><span class="skill-bar-pct">88%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:88%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Flask / Streamlit / REST APIs</span><span class="skill-bar-pct">80%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="cat-header">
+          <span class="cat-icon">☁️</span>
+          <span class="cat-name">Cloud &amp; Infrastructure</span>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">AWS (Server &amp; API Deployment)</span><span class="skill-bar-pct">78%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:78%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Snowflake</span><span class="skill-bar-pct">72%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:72%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Statistics &amp; Hypothesis Testing</span><span class="skill-bar-pct">84%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:84%"></div></div>
+          </div>
+          <div class="skill-bar-row">
+            <div class="skill-bar-top"><span class="skill-bar-name">Model Deployment &amp; REST APIs</span><span class="skill-bar-pct">80%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tools-title">// Tools &amp; Ecosystem</div>
+        <div class="tools-list">
+          <span class="tool-tag">Prophet</span>
+          <span class="tool-tag">ARIMA</span>
+          <span class="tool-tag">SARIMA</span>
+          <span class="tool-tag">LSTM</span>
+          <span class="tool-tag">XGBoost</span>
+          <span class="tool-tag">TensorFlow</span>
+          <span class="tool-tag">PyTorch</span>
+          <span class="tool-tag">Keras</span>
+          <span class="tool-tag">NLTK</span>
+          <span class="tool-tag">HuggingFace</span>
+          <span class="tool-tag">Gemini API</span>
+          <span class="tool-tag">Qdrant</span>
+          <span class="tool-tag">Chroma</span>
+          <span class="tool-tag">Power BI</span>
+          <span class="tool-tag">Streamlit</span>
+          <span class="tool-tag">Flask</span>
+          <span class="tool-tag">Snowflake</span>
+          <span class="tool-tag">MySQL</span>
+          <span class="tool-tag">MongoDB</span>
+          <span class="tool-tag">MSSQL</span>
+          <span class="tool-tag">DocumentDB</span>
+          <span class="tool-tag">Julius.ai</span>
+          <span class="tool-tag">Matplotlib</span>
+          <span class="tool-tag">Seaborn</span>
+          <span class="tool-tag">Scikit-learn</span>
+          <span class="tool-tag">SciPy</span>
+          <span class="tool-tag">NumPy</span>
+          <span class="tool-tag">Pandas</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">// 05 — Education</div>
+    <h2 class="section-title">Academic<br><em style="font-style:italic;color:var(--accent)">Foundation</em></h2>
+
+    <div class="edu-grid fade-up">
+      <div class="edu-card">
+        <div class="edu-degree">Bachelor of Engineering</div>
+        <div class="edu-school">Pune University</div>
+        <div class="edu-year">2018 – 2021</div>
+        <div class="edu-grade">✦ 7.21 CGPA — First Class</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Diploma in Engineering</div>
+        <div class="edu-school">MSBTE</div>
+        <div class="edu-year">2015 – 2018</div>
+        <div class="edu-grade">✦ 77.29% — First Class with Distinction</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">SSC (10th Standard)</div>
+        <div class="edu-school">MSBSHSE</div>
+        <div class="edu-year">2014 – 2015</div>
+        <div class="edu-grade">✦ 79.40% — First Class with Distinction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">// 06 — Contact</div>
+    <h2 class="section-title">Let's Build<br><em style="font-style:italic;color:var(--accent)">Something Together</em></h2>
+
+    <div class="contact-wrapper fade-up">
+      <div class="contact-info">
+        <a class="contact-item" href="/cdn-cgi/l/email-protection#78081f12191c10190e48484849381f15191114561b1715">
+          <div class="contact-item-icon">✉️</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val"><span class="__cf_email__" data-cfemail="f181969b9095999087c1c1c1c0b1969c90989ddf929e9c">[email&#160;protected]</span></div>
+          </div>
+        </a>
+        <a class="contact-item" href="tel:+917666308973">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-val">+91 7666308973</div>
+          </div>
+        </a>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-val">Ahmedabad / Mumbai, India</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🗓️</div>
+          <div>
+            <div class="contact-item-label">Availability</div>
+            <div class="contact-item-val">Open to full-time &amp; contract roles</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-cta-box">
+        <div class="cta-title">Ready to make data work for you?</div>
+        <p class="cta-sub">
+          Whether you're looking for an ML engineer, a GenAI specialist, or a data scientist to own your entire analytics stack — let's talk. I'm currently open to new opportunities and would love to connect.
+        </p>
+        <a href="/cdn-cgi/l/email-protection#28584f42494c40495e18181819684f45494144064b4745" class="btn-primary" style="align-self:flex-start">
+          Send a Message →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     S&S STATEMENT AI VERIFICATION TOOL MODAL
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-ss-tool" role="dialog" aria-modal="true">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-tag">📋 Gen AI · Automation · Pharma</div>
+        <div class="modal-title">S&S Statement AI Verification Tool</div>
+        <div class="modal-subtitle">// Pharmaceutical Stock Reconciliation Automation · End-to-End AI Pipeline</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('ss-tool')" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+
+      <!-- Project Flow -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent)">◈</span> Project Flow
+          <span>// End-to-end pipeline</span>
+        </div>
+        <div class="modal-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">01</div>
+            <div class="flow-step-icon">🏭</div>
+            <div class="flow-step-name">Problem<br>Identification</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">02</div>
+            <div class="flow-step-icon">🗂️</div>
+            <div class="flow-step-name">Data<br>Requirements</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">03</div>
+            <div class="flow-step-icon">🔗</div>
+            <div class="flow-step-name">Dealer<br>Pipeline</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">04</div>
+            <div class="flow-step-icon">🤖</div>
+            <div class="flow-step-name">AI<br>Extraction</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">05</div>
+            <div class="flow-step-icon">⚖️</div>
+            <div class="flow-step-name">Comparison<br>Engine</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">06</div>
+            <div class="flow-step-icon">✅</div>
+            <div class="flow-step-name">Validation<br>&amp; Labeling</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem Statement -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:#f87171">▲</span> Problem Statement
+          <span>// Business pain points</span>
+        </div>
+        <div class="problem-list">
+          <div class="problem-item">
+            <span class="problem-item-icon">🏭</span>
+            <span>Client is a pharmaceutical manufacturing company selling products <strong>Pan India</strong> through a network of 30 super stockists, 200+ stockists, and thousands of chemists. Sales are tracked division-wise by state, stockist name, and division name.</span>
+          </div>
+          <div class="problem-item">
+            <span class="problem-item-icon">📄</span>
+            <span>Each month, ground staff submit stock reports in <strong>PDF format</strong> — totalling <strong>13,000+ PDF files</strong> per cycle. Ground staff often print reports, photograph them, and convert to PDF, resulting in non-standardized, unstructured data.</span>
+          </div>
+          <div class="problem-item">
+            <span class="problem-item-icon">👥</span>
+            <span>A <strong>manual team of 10–12 people</strong> was responsible for verifying each dealer report against the master distributor stock list — comparing closing quantities product by product, stockist by stockist.</span>
+          </div>
+          <div class="problem-item">
+            <span class="problem-item-icon">⏱️</span>
+            <span>The entire verification cycle consumed <strong>10–12 working days</strong> per month, causing delays in compliance reporting, business decisions, and month-end reconciliation workflows.</span>
+          </div>
+          <div class="problem-item">
+            <span class="problem-item-icon">🎯</span>
+            <span><strong>Goal:</strong> Build an automated AI system that ingests all dealer reports in any format, extracts structured data, and verifies them against the master stock report — reducing the 10–12 day cycle to near real-time.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Requirements -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent2)">◉</span> Data Requirements
+          <span>// Inputs &amp; sources</span>
+        </div>
+        <div class="modal-section-body">
+          The system required two primary data sources: <strong>dealer stock reports</strong> submitted by ground staff across India (in PDF, PNG, JPEG, Excel, and CSV formats), and the <strong>master stock report</strong> maintained internally by the client. A key integration step involved collaborating with the client's third-party system developer to establish an automated data dump pipeline into an <strong>AWS S3 bucket</strong> in a standardized format and path structure, ensuring consistent ingestion regardless of source format.
+        </div>
+      </div>
+
+      <!-- Approach & Methodology -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent)">◈</span> Approach &amp; Methodology
+          <span>// Technical solution design</span>
+        </div>
+        <div class="task-list">
+
+          <div class="task-card">
+            <div class="task-num">TASK 01</div>
+            <div class="task-content">
+              <div class="task-title">Dealer Data Ingestion Pipeline (S3 Connection)</div>
+              <div class="task-desc">
+                Built a <strong>Dealer Connection Pipeline</strong> to collect and route dealer data from the client's third-party system into an AWS S3 bucket. Defined a standardized path and format convention so all incoming reports — regardless of origin — land in a predictable, processable location.
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card">
+            <div class="task-num">TASK 02</div>
+            <div class="task-content">
+              <div class="task-title">Multi-Format Document Handling</div>
+              <div class="task-desc">
+                Dealer reports arrived in five distinct formats. Developed format-detection logic and individual conversion handlers for each:
+              </div>
+              <div class="task-sub-list">
+                <div class="task-sub-item"><strong>PDF</strong> — Direct text extraction attempted using pdfplumber; fallback to OCR for scanned/image-based PDFs</div>
+                <div class="task-sub-item"><strong>PNG / JPEG</strong> — Image-to-text via pytesseract OCR pipeline</div>
+                <div class="task-sub-item"><strong>Excel / CSV</strong> — Pandas-based ingestion with column normalization and schema alignment</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card">
+            <div class="task-num">TASK 03</div>
+            <div class="task-content">
+              <div class="task-title">AI-Powered Data Extraction via Gemini API</div>
+              <div class="task-desc">
+                Traditional OCR and PDF extraction methods (pdfplumber, pytesseract) failed to produce reliable structured output from scanned, photographed, or non-tabular PDFs. The key engineering decision was to integrate <strong>Google Gemini API</strong> as the primary extraction engine.
+              </div>
+              <div class="task-sub-list">
+                <div class="task-sub-item">Designed prompt templates instructing Gemini to parse each document and return data in the exact schema matching the master stock report</div>
+                <div class="task-sub-item">Applied prompt engineering to handle edge cases: missing columns, merged cells, handwritten annotations, and multi-page reports</div>
+                <div class="task-sub-item">Iteratively refined prompts through testing on diverse document samples from different ground staff</div>
+                <div class="task-sub-item">Output: Structured JSON/tabular data aligned with master stock schema — ready for comparison</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card">
+            <div class="task-num">TASK 04</div>
+            <div class="task-content">
+              <div class="task-title">Data Normalization &amp; Schema Alignment</div>
+              <div class="task-desc">
+                After extraction, applied a normalization layer to standardize product names, units, and division labels across all dealer reports. This step ensured extracted data was comparable with the master stock data despite variations in terminology and formatting used by different ground staff across states.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison Process -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent3)">◈</span> Comparison Engine
+          <span>// Reconciliation logic</span>
+        </div>
+        <div class="task-list">
+          <div class="task-card">
+            <div class="task-num">TASK 05</div>
+            <div class="task-content">
+              <div class="task-title">Filtered Matching &amp; Primary Key Assignment</div>
+              <div class="task-desc">
+                Implemented a multi-key filtering strategy to narrow comparison scope before running validation:
+              </div>
+              <div class="task-sub-list">
+                <div class="task-sub-item">Filtered records by <strong>Stockist Name</strong>, <strong>Division</strong>, and <strong>Date</strong></div>
+                <div class="task-sub-item">Applied <strong>Product Name</strong> as the primary key for joining dealer data against master data</div>
+                <div class="task-sub-item">Performed <strong>Closing Quantity comparison</strong> between extracted dealer values and master stock values</div>
+              </div>
+            </div>
+          </div>
+          <div class="task-card">
+            <div class="task-num">TASK 06</div>
+            <div class="task-content">
+              <div class="task-title">Two-Layer Validation &amp; Result Labeling</div>
+              <div class="task-desc">
+                Designed a two-layer validation system to handle all mismatch scenarios intelligently and produce business-readable labels:
+              </div>
+              <div class="task-sub-list">
+                <div class="task-sub-item"><strong>Layer 1 — Product Resolution:</strong> If product not found in master data, system cross-checks unit details and re-attempts product name matching</div>
+                <div class="task-sub-item"><strong>Layer 2 — Division Check:</strong> If product name and unit verify correctly but quantity still mismatches, it is labeled as "Division Mismatch" — isolating the error type for the business team</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation labels -->
+        <div style="margin-top:0.75rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">// Output Labels</div>
+          <div class="label-grid">
+            <span class="label-badge match">✓ Match</span>
+            <span class="label-badge nomatch">✗ Not Match</span>
+            <span class="label-badge mismatch">⚠ Division Mismatch</span>
+            <span class="label-badge notfound">◌ Product Not Found</span>
+          </div>
+        </div>
+
+        <!-- Validation layer cards -->
+        <div class="validation-layers" style="margin-top:0.75rem;">
+          <div class="val-layer">
+            <div class="val-layer-title">// Layer 1 — Product Resolution</div>
+            <div class="val-layer-desc">When a product is not found in master data, the system checks unit details and re-validates the product name. This handles naming discrepancies between ground staff terminology and master records.</div>
+          </div>
+          <div class="val-layer">
+            <div class="val-layer-title">// Layer 2 — Division Check</div>
+            <div class="val-layer-desc">If product name and unit both verify correctly but quantity still mismatches, the system flags it as "Division Mismatch" — providing the business team with a precise, actionable error category.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent)">◈</span> Tech Stack Used
+          <span>// Tools &amp; technologies</span>
+        </div>
+        <div class="tech-stack-grid">
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">Gemini API</span>
+          <span class="tech-badge">Generative AI</span>
+          <span class="tech-badge">AWS S3</span>
+          <span class="tech-badge">pdfplumber</span>
+          <span class="tech-badge">pytesseract OCR</span>
+          <span class="tech-badge">Pandas</span>
+          <span class="tech-badge">NumPy</span>
+          <span class="tech-badge">Prompt Engineering</span>
+          <span class="tech-badge">PDF Processing</span>
+          <span class="tech-badge">Image Processing</span>
+          <span class="tech-badge">Data Normalization</span>
+          <span class="tech-badge">REST API Integration</span>
+          <span class="tech-badge">JSON Schema Design</span>
+          <span class="tech-badge">Excel / CSV Parsing</span>
+        </div>
+      </div>
+
+      <!-- Key Outcomes -->
+      <div class="modal-section">
+        <div class="modal-section-label">
+          <span style="color:var(--accent3)">◈</span> Key Outcomes &amp; Results
+          <span>// Business impact</span>
+        </div>
+        <div class="outcomes-grid">
+          <div class="outcome-card">
+            <div class="outcome-icon">⚡</div>
+            <div class="outcome-val">~90%</div>
+            <div class="outcome-label">Reduction in manual verification time</div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-icon">👥</div>
+            <div class="outcome-val">10–12</div>
+            <div class="outcome-label">Person manual team replaced by automation</div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-icon">📄</div>
+            <div class="outcome-val">13,000+</div>
+            <div class="outcome-label">Monthly PDF reports processed automatically</div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-icon">🗓️</div>
+            <div class="outcome-val">10–12d → hrs</div>
+            <div class="outcome-label">Verification cycle drastically reduced</div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-icon">🎯</div>
+            <div class="outcome-val">Multi-layer</div>
+            <div class="outcome-label">Validation with business-readable error labels</div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-icon">🏭</div>
+            <div class="outcome-val">Pan India</div>
+            <div class="outcome-label">Coverage across all 30 super stockists &amp; divisions</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+
+    <div class="modal-footer">
+      <div class="modal-footer-note">// Pharmaceutical · Stock Verification · AI Automation · 2024–Present</div>
+      <button class="btn-outline" onclick="closeModal('ss-tool')" style="font-size:0.75rem;padding:0.5rem 1.25rem;">Close ✕</button>
+    </div>
+
+  </div><!-- /modal -->
+</div><!-- /modal-overlay -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Prashant Jadhav</div>
+  <div class="footer-copy">© 2025 · Data Scientist · Built with passion for data</div>
+</footer>
+
+<script>
+  // ── Modal open/close ──
+  function openModal(id) {
+    const overlay = document.getElementById('modal-' + id);
+    if (!overlay) return;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    overlay.scrollTop = 0;
+  }
+
+  function closeModal(id) {
+    const overlay = document.getElementById('modal-' + id);
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(overlay => {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  // Scroll fade-in observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Hero immediate reveal
+  document.querySelectorAll('#hero .fade-up').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 200);
+  });
+
+  // Skill bar animation on scroll
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-fill').forEach((bar, i) => {
+          bar.style.animationDelay = `${i * 0.15}s`;
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.skill-category').forEach(el => barObserver.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>

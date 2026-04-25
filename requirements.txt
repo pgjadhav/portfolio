@@ -1,0 +1,2 @@
+# Python requirements for the portfolio project
+# Currently no Python dependencies are used in this Next.js project
