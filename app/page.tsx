@@ -58,7 +58,7 @@ const experienceItems = [
   {
     date: '2024 – Present',
     role: 'Data Scientist',
-    company: "LET'S ENKINDLE · Ahmedabad, India",
+    company: "LET'S ENKINDLE · India",
     bullets: [
       'Performed Time Series Analysis on large, complex datasets to uncover patterns and trends informing business decisions.',
       'Developed predictive models using Prophet, ARIMA, SARIMA, Exponential MA, and LSTM neural networks for product price forecasting.',
