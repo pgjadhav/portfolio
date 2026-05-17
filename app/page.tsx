@@ -20,14 +20,14 @@ const navLinks = [
 ]
 
 const heroStats = [
-  { icon: '🧠', number: '4+', label: 'Years Experience' },
+  { icon: '🧠', number: '3+', label: 'Years Experience' },
   { icon: '🚀', number: '8+', label: 'Projects Delivered' },
   { icon: '🤖', number: 'LLM', label: 'Fine-tuning & RAG Pipelines' },
 ]
 
 const heroSummary = [
   { value: '8+', label: 'AI/ML Cases Delivered' },
-  { value: '30+', label: 'Enterprise Data Pipelines' },
+  { value: '4+', label: 'Enterprise Data Pipelines' },
   { value: '100%', label: 'Quality & Deployment Focus' },
 ]
 
@@ -433,7 +433,7 @@ export default function Home() {
           <div className="hero-title">{'//Data Scientist & AI/ML Engineer'}</div>
           <p className="hero-desc">
             Building intelligent systems at the intersection of Machine Learning, LLMs, and Time Series Analysis.
-            4+ years turning complex data into decisions that matter.
+            3+ years turning complex data into decisions that matter.
           </p>
           <div className="hero-btns">
             <a href="#projects" className="btn-primary" data-cursor="hover">
@@ -502,7 +502,7 @@ export default function Home() {
                 <div className="exp-title">{'// Profile Overview'}</div>
                 <p className="about-card-subtitle">Building AI-first systems that combine forecasting, NLP, and automation to deliver measurable business outcomes.</p>
               </div>
-              <p>{'I\'m a Data Scientist with 4+ years of hands-on experience crafting end-to-end AI/ML solutions across forecasting, natural language processing, and generative AI. Currently based in Ahmedabad, I work at Let\'s Enkindle where I build predictive models and intelligent automation systems for real-world business impact.'}</p>
+              <p>{'I\'m a Data Scientist with 3+ years of hands-on experience crafting end-to-end AI/ML solutions across forecasting, natural language processing, and generative AI. Currently based in Ahmedabad, I work at Let\'s Enkindle where I build predictive models and intelligent automation systems for real-world business impact.'}</p>
               <p>
                 My expertise spans the full ML lifecycle — from raw data wrangling and feature engineering to deploying production-grade models via REST APIs on AWS. I thrive in cross-functional environments where data-driven decisions move the needle.
               </p>
@@ -535,7 +535,7 @@ export default function Home() {
             <br />
             <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Journey</em>
           </h2>
-          <p className="section-sub">4+ years building data-driven products across two forward-thinking organizations.</p>
+          <p className="section-sub">3+ years building data-driven products across two forward-thinking organizations.</p>
 
           <div className="exp-timeline fade-up">
             {experienceItems.map((item) => (
