@@ -69,9 +69,9 @@ const experienceItems = [
     accent: 'accent',
   },
   {
-    date: '2021 – 2024',
+    date: '2023 – 2024',
     role: 'Data Scientist',
-    company: 'LETS NURTURE · Ahmedabad, India',
+    company: 'Zeta IT Innovations · India',
     bullets: [
       'Analyzed large datasets to identify trends and patterns supporting data-driven business strategies.',
       'Developed classification and regression models using logistic regression, decision trees, and neural networks.',
